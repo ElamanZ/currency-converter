@@ -2,6 +2,7 @@ import { FC, memo } from "react";
 import "./ConverterPanel.scss";
 import { ArrowLeftRight } from "lucide-react";
 import { ConverterPanelProps } from "@/types/types";
+import { getCurrencySymbol } from "@/lib/format";
 
 export const ConverterPanel: FC<ConverterPanelProps> = memo(({
   amount,
@@ -13,6 +14,9 @@ export const ConverterPanel: FC<ConverterPanelProps> = memo(({
   onSwap,
   isLoading = false,
 }) => {
+
+ 
+
   return (
     <div className="converter-panel">
       <div className="converter-panel__field-group">
@@ -38,7 +42,8 @@ export const ConverterPanel: FC<ConverterPanelProps> = memo(({
               disabled={isLoading}
             >
               <div className="converter-panel__currency-icon">
-                {fromCurrency.symbol}
+                {getCurrencySymbol(fromCurrency.symbol)}
+                
               </div>
               <div className="converter-panel__currency-info">
                 <div className="converter-panel__currency-code">
@@ -68,7 +73,7 @@ export const ConverterPanel: FC<ConverterPanelProps> = memo(({
               disabled={isLoading}
             >
               <div className="converter-panel__currency-icon">
-                {toCurrency.symbol}
+                {getCurrencySymbol(toCurrency.symbol)}
               </div>
               <div className="converter-panel__currency-info">
                 <div className="converter-panel__currency-code">
