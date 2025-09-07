@@ -1,69 +1,144 @@
-# React + TypeScript + Vite
+# Currency Converter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern single-page currency converter web application built with React + TypeScript. Features real-time exchange rates, offline support, and responsive design.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Real-time Exchange Rates**: Live currency conversion using VATComply API
+- **Offline Support**: Cached data functionality when internet is unavailable
+- **Responsive Design**: Optimized for mobile (≤480px) and desktop (≥1024px)
+- **Currency Search**: Quick search by currency code and name
+- **Keyboard Navigation**: Full keyboard support in currency selection modal
+- **Auto-save**: Remembers last selected currencies and amount in localStorage
+- **Debounced Input**: Optimized API calls with 250ms debounce
+- **TypeScript**: Strict typing for code reliability
+- **Error Handling**: Graceful error handling with retry functionality
 
-## Expanding the ESLint configuration
+## 🛠 Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **React Query** - Server state management
+- **Axios** - HTTP client
+- **SCSS** - Styling
+- **Lucide React** - Icons
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📦 Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd currency-converter
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies:
+```bash
+pnpm install
+```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. Create a `.env` file in the project root:
+```env
+VITE_API_URL=https://api.vatcomply.com
+```
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+4. Start the development server:
+```bash
+pnpm dev
+```
+
+## 🏗 Architecture
+
+### Project Structure
+
+```
+src/
+├── components/          # React components
+│   ├── ConverterPanel/  # Input panel and currency selectors
+│   ├── CurrencyModal/   # Currency selection modal
+│   ├── ResultCard/      # Conversion result display
+│   ├── StatusBar/       # Network status indicator
+│   └── ErrorDisplay/    # Error handling component
+├── hooks/               # Custom hooks
+│   ├── useCurrencyQueries.ts  # React Query hooks
+│   ├── useCurrencyCache.ts    # Currency caching logic
+│   ├── useUserPreferences.ts  # User preferences management
+│   ├── useOnlineStatus.ts     # Online/offline status
+│   ├── useDebounce.ts         # Debounce hook
+│   └── useConverterPageData.ts # Main page data hook
+├── lib/                 # Utilities
+│   ├── calc.ts          # Conversion calculation logic
+│   └── format.ts        # Data formatting utilities
+├── services/            # API services
+│   └── currencyApi.ts   # Currency API service
+├── types/               # TypeScript definitions
+│   └── types.ts         # Type definitions
+└── utils/               # Helper utilities
+    ├── baseAxios.ts     # Axios configuration
+    └── errors.ts        # Error handling utilities
+```
+
+### Architecture Principles
+
+- **SOLID**: Following SOLID principles
+- **KISS**: Keep it simple and straightforward
+- **DRY**: Don't repeat yourself
+- **YAGNI**: You aren't gonna need it
+
+### State Management
+
+- **React Query**: Server state (exchange rates, currency list)
+- **Local State**: UI state (modals, search)
+- **LocalStorage**: Persistent user preferences and cached data
+
+### Caching Strategy
+
+- **React Query Cache**: Automatic API request caching
+- **LocalStorage Cache**: Manual caching for offline mode
+- **Cache Expiration**: Auto-refresh cache after 5 minutes
+- **Offline Fallback**: Use cached data when offline with clear timestamp display
+
+## 🎨 Design
+
+The application follows the provided Figma mockups with support for:
+
+- **Mobile Version** (≤ 480px)
+- **Desktop Version** (≥ 1024px)
+- **Responsive Grid**: Optimal display across devices
+- **Modern UI**: Smooth animations and transitions
+
+## 🔧 API Integration
+
+Uses **VATComply API** for exchange rates:
+
+- **Endpoint**: `https://api.vatcomply.com/rates`
+- **Base Currency**: EUR (default)
+- **Update Frequency**: Every 5 minutes
+- **Fallback**: Cached data on errors
+
+### Conversion Logic
+
+Handles base currency conversion using the formula:
+```
+rate(A→B) = rate(Base→B) / rate(Base→A)
+```
+
+## 🚀 Performance Optimizations
+
+- **Memoization**: React.memo, useMemo, useCallback
+- **Debounced Input**: 250ms debounce for amount input
+- **Lazy Loading**: Component lazy loading where appropriate
+- **Efficient Re-renders**: Clean state management to prevent unnecessary renders
+
+## 🧪 Development
+
+```bash
+# Run linter
+pnpm lint
+
+# Build for production
+pnpm build
+
+# Preview production build
+pnpm preview
 ```
