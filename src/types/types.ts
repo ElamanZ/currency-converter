@@ -19,6 +19,10 @@ export interface ConversionResult {
   inverseRate: number;
 }
 
+export type CurrencyApiResponse = Record<
+  string,
+  { name: string; symbol: string }
+>;
 export interface UserPreferences {
   from: string;
   to: string;

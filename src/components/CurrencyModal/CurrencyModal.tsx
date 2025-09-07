@@ -1,8 +1,8 @@
 import { memo, useEffect, useRef, useState, KeyboardEvent } from "react";
 import { X, Search, Check } from "lucide-react";
-import { CurrencyModalProps } from "@/types/types";
 import { getCurrencySymbol, searchCurrencies } from "@/lib/format";
 import "./CurrencyModal.scss";
+import { CurrencyModalProps } from '@/types/types';
 
 
 const CurrencyModal = memo(({

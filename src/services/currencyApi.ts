@@ -1,57 +1,49 @@
 import { baseAxios } from '@/utils/baseAxios';
-import { 
-  ExchangeRates, 
-  VATComplyResponse, 
+import {
+  ExchangeRates,
+  VATComplyResponse,
   Currency,
-  AppError 
+  CurrencyApiResponse,
 } from '@/types/types';
+import { AppApiError } from '@/utils/errors';
+
+const adaptExchangeRates = (data: VATComplyResponse): ExchangeRates => ({
+  base: data.base,
+  rates: data.rates,
+  timestamp: new Date(data.date).getTime(),
+});
+
+const adaptCurrencies = (data: CurrencyApiResponse): Currency[] =>
+  Object.entries(data).map(([code, { name, symbol }]) => ({
+    code,
+    name,
+    symbol,
+  }));
 
 class CurrencyApiService {
-  
   async getExchangeRates(): Promise<ExchangeRates> {
     try {
-      const response = await baseAxios.get<VATComplyResponse>('/rates');
-      const data = response.data;
-      
-      return {
-        base: data.base,
-        rates: data.rates,
-        timestamp: new Date(data.date).getTime()
-      };
+      const { data } = await baseAxios.get<VATComplyResponse>('/rates');
+      return adaptExchangeRates(data);
     } catch (error) {
-      throw this.handleError(error, 'Failed to fetch exchange rates');
+      this.handleError(error, 'Failed to fetch exchange rates');
     }
   }
 
   async getCurrencies(): Promise<Currency[]> {
     try {
-      const response = await baseAxios.get<Record<string, { name: string; symbol: string }>>('/currencies');
-      const data = response.data;
-      
-      return Object.entries(data).map(([code, info]) => ({
-        code,
-        name: info.name,
-        symbol: info.symbol
-      }));
+      const { data } = await baseAxios.get<CurrencyApiResponse>('/currencies');
+      return adaptCurrencies(data);
     } catch (error) {
-      throw this.handleError(error, 'Failed to fetch currencies');
+      this.handleError(error, 'Failed to fetch currencies');
     }
   }
 
-  private handleError(error: unknown, message: string): AppError {
+  private handleError(error: unknown, message: string): never {
     if (error instanceof Error) {
-      return {
-        message: `${message}: ${error.message}`,
-        code: 'API_ERROR',
-        details: error
-      };
+      throw new AppApiError(`${message}: ${error.message}`, 'API_ERROR', error);
     }
-    
-    return {
-      message,
-      code: 'UNKNOWN_ERROR',
-      details: error
-    };
+    throw new AppApiError(message, 'UNKNOWN_ERROR', error);
   }
 }
 
