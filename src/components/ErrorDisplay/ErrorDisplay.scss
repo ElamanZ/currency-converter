@@ -1,0 +1,60 @@
+.error-display {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+
+    &__content {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    &__icon {
+        color: #dc2626;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    &__text {
+        flex: 1;
+    }
+
+    &__title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #dc2626;
+        margin: 0 0 4px 0;
+    }
+
+    &__message {
+        font-size: 14px;
+        color: #7f1d1d;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    &__retry {
+        background: #dc2626;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background: #b91c1c;
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+    }
+}
