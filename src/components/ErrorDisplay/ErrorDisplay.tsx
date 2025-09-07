@@ -27,7 +27,7 @@ export const ErrorDisplay: FC<ErrorDisplayProps> = ({
           <button 
             className="error-display__retry"
             onClick={onRetry}
-            aria-label="Попробовать снова"
+            aria-label="Try again"
           >
             <RefreshCw size={16} />
             Retry

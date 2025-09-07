@@ -21,7 +21,6 @@ export const useExchangeRates = () => {
     refetchOnReconnect: true,
   });
 
-  // ✅ Сохраняем в кэш через эффект, а не напрямую
   useEffect(() => {
     if (query.data) {
       saveToCache(query.data);
