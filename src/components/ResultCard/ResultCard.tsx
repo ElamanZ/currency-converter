@@ -58,6 +58,8 @@ const ResultCard = memo(({ result, isLoading = false }: ResultCardProps) => {
         </div>
       </div>
 
+      <div className="result-card__divider" />
+      
       <div className="result-card__disclaimer">
         Rates are for informational purposes only and may not reflect real-time market rates
       </div>
