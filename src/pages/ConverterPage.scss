@@ -1,81 +1,69 @@
+.converter-page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 24px;
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-}
+  &__header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
 
-.title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 32px;
-  margin-top: 16px;
-  margin-bottom: 6px;
-}
+  &__title {
+    font-weight: 700;
+    font-size: 32px;
+    margin: 0 0 8px;
+    color: var(--text);
+  }
 
-.subtitle {
-  text-align: center;
-  color: var(--muted);
-  margin: 0 0 16px;
-  font-weight: 500;
-}
+  &__subtitle {
+    color: var(--muted);
+    margin: 0;
+    font-weight: 500;
+    font-size: 16px;
+  }
 
-.status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
+  &__content {
+    display: grid;
+    gap: 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight : 600;
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: #fff;
-}
-.badge--ok {
-  border-color: #bbf7d0;
-  background: #ecfdf5;
-  color: var(--green);
-}
-.badge--off {
-  border-color: #fecaca;
-  background: #fff1f2;
-  color: var(--red);
+  &__error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: var(--red);
+    padding: 16px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 16px;
+
+    p {
+      margin: 0;
+      font-weight: 500;
+    }
+  }
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: var(--primary);
-  color: var(--primary-text);
-  border: 1px solid var(--border);
-  cursor: pointer;
-  font-weight: 600;
-}
-.btn:disabled {
-  opacity: .6;
-  cursor: not-allowed;
+@media (min-width: 720px) {
+  .converter-page {
+    &__content {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+    }
+  }
 }
 
-.grid {
-  display: grid;
-  gap: 16px;
-}
-@media (min-width: 1024px) {
-  .grid--desktop {
-    grid-template-columns: 1.2fr 1fr;
-    align-items: start;
+@media (max-width: 480px) {
+  .converter-page {
+    padding: 16px;
+
+    &__title {
+      font-size: 28px;
+    }
+
+    &__subtitle {
+      font-size: 14px;
+    }
   }
 }
